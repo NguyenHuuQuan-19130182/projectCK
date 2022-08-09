@@ -58,6 +58,21 @@ public class ProductDao {
 
     public List<Product> searchByName(String txtSearch) {
         List<Product> list = new ArrayList<>();
+        String sql = "Select * from products where name like ?";
+        try {
+            conn = new DBConnect().get().getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, "%" + txtSearch + "%");
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                list.add(new Product(
+                        rs.getString(1), rs.getInt(2), rs.getString(3),
+                        rs.getInt(4), rs.getInt(5), rs.getString(6), rs.getInt(7),rs.getInt(8), rs.getString(9),
+                        rs.getString(10), rs.getDouble(11), rs.getDouble(12)
+                ));
+            }
+        } catch (Exception e) {
+        }
         return list;
     }
 
